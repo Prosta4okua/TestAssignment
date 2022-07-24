@@ -1,0 +1,7 @@
+.idea
+go.mod
+go.sum
+emails.csv
+assets/emails.csv
+.dockerignore
+.swagger-codegen-ignore
