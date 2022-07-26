@@ -5,68 +5,21 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"strings"
 )
 
 const csvFileName string = "assets/emails.csv"
 
-func main() {
-	//CsvAdd("danyavdele@gmail.com")
-	//print(CsvRead())
-	fmt.Print("[DEBUG] Manipulating with .csv file\n\n")
-	for {
-		fmt.Print(
-			"Available categories:\n" +
-				"	1. Add email\n" +
-				"	2. Delete email\n" +
-				"	3. Show emails\n" +
-				"	4. Check email\n" +
-				"	0. Exit\n" +
-				"Enter the category:\t")
-		var input int32
-		fmt.Scanln(&input)
-		switch input {
-		case 0:
-			os.Exit(0)
-		case 1:
-			var str string
-			fmt.Println("Enter the email that you want to add")
-			fmt.Scanln(&str)
-			CsvAdd(str)
-		case 2:
-			var delThisEmail string
-			fmt.Println("Enter the email that you want to delete")
-			fmt.Scanln(&delThisEmail)
-			CsvDelValue(delThisEmail)
-		case 3:
-			CsvShow()
-		case 4:
-			var checkEmail string
-			fmt.Println("Enter the email that you want to check if it exists")
-			fmt.Scanln(&checkEmail)
-			if CheckCsvValue(checkEmail) == true {
-				fmt.Println("This email already exists in the file!")
-			} else {
-				fmt.Println("This email doesn't exist in the file!")
-			}
-		}
-
-	}
-}
-
 func CsvShow() {
 	array := CsvRead()
-	for index, item := range array {
-		fmt.Println("[" + strconv.Itoa(index) + "] " + item)
+	fmt.Print("[")
+	for _, item := range array {
+		fmt.Print(item + ", ")
 	}
+	fmt.Print("]")
 }
 
 func CsvRead() []string {
-	//csvLines, err := os.OpenFile(csvFileName, os.O_RDONLY|os.O_CREATE, 0666)
-	//if err != nil {
-	//	panic(err)
-	//}
 
 	csvLines, err := os.ReadFile(csvFileName)
 	if err != nil {
@@ -74,9 +27,6 @@ func CsvRead() []string {
 
 	}
 
-	// fmt.Print("Hehe: ")
-	// fmt.Println(string(csvLines))
-	fmt.Println(strings.Split(string(csvLines), ","))
 	return strings.Split(strings.Trim(string(csvLines), ","), ",")
 
 }
