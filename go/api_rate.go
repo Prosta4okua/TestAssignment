@@ -10,10 +10,35 @@
 package swg
 
 import (
+	"fmt"
+	"io/ioutil"
 	"net/http"
 )
 
 func Rate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	//json.NewEncoder(w).Encode(5)
+	fmt.Fprintf(w, "5")
+
+}
+
+func USD2UAH() string {
+	url := "https://api.apilayer.com/fixer/convert?to=UAH&from=USD&amount=1"
+
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", url, nil)
+	req.Header.Set("apikey", "OtidtN80nHVyglBwcDsSES5B1reZ86tQ")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	res, err := client.Do(req)
+	if res.Body != nil {
+		defer res.Body.Close()
+	}
+	body, err := ioutil.ReadAll(res.Body)
+
+	fmt.Println(string(body))
+	return string(body)
 }

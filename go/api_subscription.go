@@ -10,16 +10,37 @@
 package swg
 
 import (
+	"fmt"
 	"net/http"
 )
 
 func SendEmails(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	_, err := w.Write([]byte("E-mailʼи відправлено"))
+	if err != nil {
+		return
+	}
+	CsvShow()
+	//json.NewEncoder(w).Encode(csvge)
 }
 
 func Subscribe(w http.ResponseWriter, r *http.Request) {
-
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+
+	fmt.Println("Your email: " + r.FormValue("email"))
+	newEmail := r.FormValue("email")
+
+	if CheckCsvValue(newEmail) == false {
+		CsvAdd(newEmail)
+	} else {
+		http.Error(w, "Ця електронна скринька вже наявна в нашій файловій базі даних!", http.StatusConflict)
+		return
+	}
+
 	w.WriteHeader(http.StatusOK)
+	_, err := w.Write([]byte("E-mail додано"))
+	if err != nil {
+		return
+	}
 }

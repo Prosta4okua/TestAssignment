@@ -82,7 +82,6 @@ func CsvRead() []string {
 }
 
 func CsvAdd(newEmail string) {
-	//f, err1 := os.OpenFile(csvFileName, os.O_APPEND, 0666)
 
 	f, err := os.OpenFile(csvFileName, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
@@ -114,6 +113,9 @@ func CsvDelValue(badEmail string) {
 }
 
 func CheckCsvValue(email string) bool {
+	if checkIfFileExists() == false {
+		createCsvFile()
+	}
 	array := CsvRead()
 	for _, item := range array {
 		if item == email {
@@ -121,6 +123,17 @@ func CheckCsvValue(email string) bool {
 		}
 	}
 	return false
+}
+
+func createCsvFile() {
+	file, e := os.Create(csvFileName)
+	if e != nil {
+		log.Fatal(e)
+	}
+	err := file.Close()
+	if err != nil {
+		return
+	}
 }
 
 func check(e error) {

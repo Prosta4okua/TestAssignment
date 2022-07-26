@@ -22,6 +22,7 @@ func main() {
 
 	router := swg.NewRouter()
 	fmt.Println("Server has started")
+
 	log.Fatal(http.ListenAndServe(":8080", router))
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
