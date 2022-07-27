@@ -34,13 +34,18 @@ func NewRouter() *mux.Router {
 	return router
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
+func Index(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	fmt.Fprintf(w, "Привіт, світе!\nЦей API працює ;)")
+	_, err := fmt.Fprintf(w, "Привіт, світе!\nЦей API працює ;)")
+	if err != nil {
+		return
+	}
 
 }
 
 var routes = Routes{
+
+	// проста перевірка чи працює API взагалі
 	Route{
 		"Index",
 		"GET",
@@ -48,6 +53,7 @@ var routes = Routes{
 		Index,
 	},
 
+	// отримати поточний курс
 	Route{
 		"Rate",
 		strings.ToUpper("Get"),
@@ -55,6 +61,7 @@ var routes = Routes{
 		swg.Rate,
 	},
 
+	// надіслати поточний курс по скриньках
 	Route{
 		"SendEmails",
 		strings.ToUpper("Post"),
@@ -62,6 +69,7 @@ var routes = Routes{
 		swg.SendEmails,
 	},
 
+	// додати нову скриньку для розсилання курсу
 	Route{
 		"Subscribe",
 		strings.ToUpper("Post"),

@@ -1,7 +1,6 @@
 package swg
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -38,28 +37,16 @@ func CsvAdd(newEmail string) {
 		panic(err)
 	}
 
-	defer f.Close()
+	defer func(f *os.File) {
+		err := f.Close()
+		if err != nil {
+
+		}
+	}(f)
 
 	if _, err = f.WriteString("," + newEmail); err != nil {
 		panic(err)
 	}
-}
-
-func CsvDelValue(badEmail string) {
-	array := CsvRead()
-	if CheckCsvValue(badEmail) == false {
-		err := errors.New("this email doesn't exist")
-		if err != nil {
-			return
-		}
-	}
-	for index, item := range array {
-		if item == badEmail {
-			array = append(array[:index], array[index+1:]...)
-			break
-		}
-	}
-
 }
 
 func CheckCsvValue(email string) bool {
@@ -83,12 +70,6 @@ func createCsvFile() {
 	err := file.Close()
 	if err != nil {
 		return
-	}
-}
-
-func check(e error) {
-	if e != nil {
-		panic(e)
 	}
 }
 
