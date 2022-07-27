@@ -6,10 +6,9 @@ import (
 	gmail "github.com/go-mail/mail"
 	"net/http"
 	"os"
-	"strconv"
 )
 
-func SendEmails(w http.ResponseWriter, r *http.Request) {
+func SendEmails(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 
@@ -19,7 +18,7 @@ func SendEmails(w http.ResponseWriter, r *http.Request) {
 	m.SetHeader("From", "currency@currency.com")
 	m.SetHeader("To", CsvRead()...)
 	m.SetHeader("Subject", "Сьогоднішній курс біткоїна до гривні")
-	m.SetBody("text/plain", "Поточний курс біткоїна:"+strconv.Itoa(Get_BTC_to_UAH())+"грн")
+	m.SetBody("text/plain", "Поточний курс біткоїна: "+GetBtcToUah()+" грн")
 
 	d := gmail.NewDialer("smtp.gmail.com", 587, os.Getenv("EMAIL"), os.Getenv("EMAIL_PASSWORD"))
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}

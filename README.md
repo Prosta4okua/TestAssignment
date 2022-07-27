@@ -5,18 +5,28 @@
 
 
 ### Швидкий огляд
-Цей сервер було згенеровано проєктом [swagger-codegen](https://github.com/swagger-api/swagger-codegen). Swagger-документацію можна подивитися [тут](https://github.com/AndriiPopovych/gses/blob/main/gses2swagger.yaml).
+Шаблон серверу було згенеровано проєктом [swagger-codegen](https://github.com/swagger-api/swagger-codegen). Swagger-документацію можна подивитися [тут](https://github.com/AndriiPopovych/gses/blob/main/gses2swagger.yaml).
 Використовуючи [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) з віддаленого сервера можна легко створити заглушку сервера.
 
 - Версія API: 1.0.0
 - Версія збірки: 2022-07-24T15:47:24.214Z
 
 
+### Переваги
+- Курс береться з безкоштовного API;
+- Надсилається курс користувачам (можна відразу декільком);
+- Дані зберігаються у файловому форматі.
+
+### Недоліки
+- Можливе довге початкове налаштування Docker;
+- Якщо замінити API, з якого береться курс, на https, то потрібне також налаштування сертифікатам Docker, що є доволі складним у WSL.
+
+
 ### Запуск сервера
 Для запуску сервера слідуйте цим простим настановам:
 
 - Перейменуйте `.env.example` на `.env` та встановіть туди свої змінні.
-- Пропишіть в консолі команду ```go run main.go```.
+- Пропишіть в консолі команду ```go run main.go``` або ```go run .```.
 - Для швидкої перевірки також можна використати Postman замість редактора Swagger.
 
 
@@ -25,7 +35,7 @@
 - Установіть Docker;
 - Пропишіть в консолі команду `docker build -t yourProjectName .`;
 - Перевірте наявність Docker's image шляхом команди `docker images`;
-- Запустіть Docker за допомогою команди `docker `
+- Запустіть Docker за допомогою команди `docker run -p 8080:8080 yourProjectName`
 
 
 ### Підключені бібліотеки
